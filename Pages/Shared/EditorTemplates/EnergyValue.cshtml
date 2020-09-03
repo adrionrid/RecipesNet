@@ -1,0 +1,63 @@
+﻿@model RecipesNet.Models.EnergyValue
+
+<div class="form-group border border-light rounded rounded-lg">
+    <div class="d-flex justify-content-between">
+        <h5>
+            @Html.LabelForModel()
+        </h5>
+        <div class="text-muted small">
+            per 100 @Models.Content.Units.Gramm
+        </div>
+    </div>
+    <div class="control-label">
+        @Html.DisplayNameFor(x => x.Protein)
+    </div>
+    <div class="form-group input-group">
+        <input asp-for="Protein" class="form-control" />
+        <div class="input-group-append">
+            <span class="input-group-text">
+                @Models.Content.Units.Gramm
+            </span>
+        </div>
+    </div>
+    <span asp-validation-for="Protein" class="text-danger"></span>
+
+    <div class="control-label">
+        @Html.DisplayNameFor(x => x.Fat)
+    </div>
+    <div class="form-group input-group">
+        <input asp-for="Fat" class="form-control" />
+        <div class="input-group-append">
+            <span class="input-group-text">
+                @Models.Content.Units.Gramm
+            </span>
+        </div>
+    </div>
+    <span asp-validation-for="Fat" class="text-danger"></span>
+
+    <div class="control-label">
+        @Html.DisplayNameFor(x => x.Carbohydrate)
+    </div>
+    <div class="form-group input-group">
+        <input asp-for="Carbohydrate" class="form-control" />
+        <div class="input-group-append">
+            <span class="input-group-text">
+                @Models.Content.Units.Gramm
+            </span>
+        </div>
+    </div>
+    <span asp-validation-for="Carbohydrate" class="text-danger"></span>
+
+    <div class="control-label">
+        @Html.DisplayNameFor(x => x.Calorie)
+    </div>
+    <div class="form-group input-group">
+        <input asp-for="Calorie" class="form-control" />
+        <div class="input-group-append">
+            <span class="input-group-text">
+                @Models.Content.Units.Calorie
+            </span>
+        </div>
+    </div>
+    <span asp-validation-for="Calorie" class="text-danger"></span>
+</div>

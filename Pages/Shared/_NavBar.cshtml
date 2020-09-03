@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    var pageName = ViewContext.RouteData.Values["page"].ToString();
+    string IsActive(string Name) => pageName.Contains(Name) ? "active" : "";
+
+    string IsActiveDir(string[] Names)
+    {
+        foreach (var item in Names)
+            if (pageName.Contains(item))
+                return "active";
+        return "";
+
+    }
+}
+    <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light flex-column border-bottom">
+        <div class="container">
+            <a class="navbar-brand text-white text-center btn btn-link btn-dark" asp-area="" asp-page="/Index">
+                <i class="fas fa-utensils"></i>
+                @Models.Content.Logo.Name
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="nav navbar-collapse collapse justify-content-between py-1 py-md-0">
+                <ul class="nav nav-pills py-1 py-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text @(IsActive(nameof(Recipes))) " asp-area="" asp-page="/Recipes/Index">
+                            Recipes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text @(IsActive(nameof(Ingredients)))" asp-area="" asp-page="/Ingredients/Index">
+                            Ingredients
+                        </a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated &&
+                    (await AuthorizationService.AuthorizeAsync(User, Model, "RequireRoleModerator")).Succeeded)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link navbar-text dropdown-toggle @(IsActiveDir(new string[] { "DishTypes", "Cuisines", "IngredientTypes" }))" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                Data
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item navbar-text @(IsActive(nameof(DishTypes)))" asp-area="" asp-page="/DishTypes/Index">
+                                    Dish types
+                                </a>
+                                <a class="dropdown-item navbar-text @(IsActive(nameof(Cuisines)))" asp-area="" asp-page="/Cuisines/Index">
+                                    Cuisines
+                                </a>
+                                <a class="dropdown-item navbar-text @(IsActive(nameof(IngredientTypes)))" asp-area="" asp-page="/IngredientTypes/Index">
+                                    Ingredient types
+                                </a>
+                            </div>
+                        </li>
+                    }
+                    @if (User.Identity.IsAuthenticated &&
+                    (await AuthorizationService.AuthorizeAsync(User, Model, "RequireRoleAdministrator")).Succeeded)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link navbar-text dropdown-toggle @(IsActiveDir(new string[] { "Users", "Roles" }))" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                Administration
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item navbar-text @(IsActive("Users"))" asp-area="Identity" asp-page="/Users/Index">
+                                    Users
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item navbar-text @(IsActive("Roles"))" asp-area="Identity" asp-page="/Roles/Index">
+                                    Roles
+                                </a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+                <ul class="nav py-1 py-md-0">
+                    <li class="nav-item">
+                        <a type="button" class="nav-link btn btn-outline-primary" asp-area="" asp-page="/Recipes/Create">
+                            <i class="fas fa-pen"></i>
+                            Create&nbsp;Recipe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <partial name="_LoginPartial" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="nav justify-content-center my-2">
+            <div class="form-inline">
+                <form class="form-group input-group">
+                    <input class="form-control" type="search" placeholder="Search for recipe" aria-label="Search" name="SearchString">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary font-weight-bold" type="submit" asp-area="" asp-page="/Recipes/Index">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>

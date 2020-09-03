@@ -1,0 +1,33 @@
+﻿@page
+@model RecipesNet.Areas.Identity.Pages.Roles.IndexModel
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+@await Html.PartialAsync("_Title", "Roles")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-1"></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles[0].Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Roles)
+        {
+            <tr>
+                <td>
+                    @await Html.PartialAsync(RecipesNet.Models.Content.Buttons.Delete, item.Id.ToString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

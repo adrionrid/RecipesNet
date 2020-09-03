@@ -1,0 +1,82 @@
+﻿@page
+@model RecipesNet.Pages.Recipes.DetailsModel
+@using RecipesNet.Models
+
+@{
+    ViewData["Title"] = Html.DisplayFor(model => model.Recipe.Name);
+}
+<style>
+    .card {
+        max-width: 48rem;
+    }
+</style>
+
+<div class="d-flex justify-content-center">
+    <div class="card border-light text-decoration-none text-dark">
+        <div class="flex-column mx-3">
+            <div class="d-flex justify-content-between border-bottom mb-2">
+                <div>
+                    <div class="text-left small">
+                        @Html.DisplayFor(model => model.Recipe.DishType.Name)
+                        ·
+                        @Html.DisplayFor(model => model.Recipe.Cuisine.Name)
+                        @Html.DisplayNameFor(model => model.Recipe.Cuisine)
+                    </div>
+                    <div class="">
+                        <h1 class="card-title">
+                            @Html.DisplayFor(model => model.Recipe.Name)
+                        </h1>
+                    </div>
+                </div>
+                <div>
+                    @await Html.PartialAsync("_EditDeleteButtonGroup", Model.Recipe.Id.ToString())
+                </div>
+            </div>
+            <div class="card-body table-light p-0 small">
+                <img class="card-img rounded rounded-lg" style="object-fit:cover;" src="~/img/Recipes/@(Model.Recipe.Id).jpg" }" alt="Ingredient image not found.">
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.EnergyValue)
+            </div>
+            <div class="card-text text-justify py-4">
+                <h5>
+                    @Html.DisplayNameFor(x => x.Recipe.Ingredients)
+                </h5>
+                <div class="list-group list-group-flush">
+                    @foreach (var item in Model.Recipe.Ingredients)
+                    {
+                        <div class="list-group-item d-flex flex-row justify-content-between">
+                            <div>
+                                @Html.DisplayFor(x => item.Ingredient.Name)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(x => item.Quantity)
+                                @Models.Content.Units.Gramm
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row justify-content-between">
+                    <h5>
+                        @Html.DisplayNameFor(x => x.Recipe.Instructions)
+                    </h5>
+                    <h5>
+                        <i class="far fa-clock"></i>
+                        @Html.DisplayFor(model => model.Recipe.CookingTime)
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    @foreach (var item in Model.Recipe.Instructions)
+                    {
+                        <div class="list-group-item text-justify py-2">
+                            @(Model.Recipe.Instructions.IndexOf(item) + 1).
+                            @Html.DisplayFor(x => item.Entry)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

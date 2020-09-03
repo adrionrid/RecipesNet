@@ -1,0 +1,18 @@
+﻿@model RecipesNet.Models.IngredientItem
+@using RecipesNet
+
+<div class="form-group input-group">
+    <input type="hidden" asp-for="Id" />
+    <div class="input-group-prepend">
+        <select asp-for="IngredientId" class="form-control" asp-items="(IEnumerable<SelectListItem>)ViewBag.Ingredients">
+        </select>
+    </div>
+    <span asp-validation-for="IngredientId" class="text-danger"></span>
+    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+<div class="input-group-append">
+    <button type="button" class="btn btn-outline-danger form-control" onclick="$(this).parent().remove()">
+        <i class="fas fa-trash"></i>
+    </button>
+</div>
+    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+</div>

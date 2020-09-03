@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        @ViewData["Title"]
+    </title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg"/>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+</head>
+<body class="bg-dark text-dark">
+    <header class="bg-white sticky-top">
+        @await Html.PartialAsync(RecipesNet.Models.Content.Partial.NavBar)
+    </header>
+    <div class="container py-1">
+        <main role="main" class="rounded-lg bg-white p-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer border-top text-muted bg-white">
+        <div class="container">
+            <i class="fas fa-copyright"></i>
+            @DateTime.Now.Year
+            ·
+            @Models.Content.Logo.Name
+            ·
+            <a asp-page="/Privacy">
+                Privacy Policy
+            </a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

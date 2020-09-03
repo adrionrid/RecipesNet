@@ -1,0 +1,53 @@
+﻿@model RecipesNet.Models.EnergyValue
+
+<div class="card-text table-secondary rounded-lg p-1">
+    <h6 class="font-weight-bolder text-center text-monospace text-uppercase rounded-pill border-bottom border-white p-2">
+        @Html.DisplayNameFor(modelItem => modelItem)
+    </h6>
+    <div class="d-flex justify-content-around text-center p-1">
+        <div class="px-2">
+            <div>
+                @Html.DisplayNameFor(modelItem => modelItem.Protein)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => modelItem.Protein)
+            </div>
+            <div class="small">
+                @Models.Content.Units.Gramm
+            </div>
+        </div>
+        <div class="px-2">
+            <div>
+                @Html.DisplayNameFor(modelItem => modelItem.Fat)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => modelItem.Fat)
+            </div>
+            <div class="small">
+                @Models.Content.Units.Gramm
+            </div>
+        </div>
+        <div class="px-2">
+            <div>
+                @Html.DisplayNameFor(modelItem => modelItem.Carbohydrate)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => modelItem.Carbohydrate)
+            </div>
+            <div class="small">
+                @Models.Content.Units.Gramm
+            </div>
+        </div>
+        <div class="px-2">
+            <div>
+                @Html.DisplayNameFor(modelItem => modelItem.Calorie)
+            </div>
+            <div>
+                @Html.DisplayFor(modelItem => modelItem.Calorie)
+            </div>
+            <div class="small">
+                @Models.Content.Units.Calorie
+            </div>
+        </div>
+    </div>
+</div>

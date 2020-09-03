@@ -1,0 +1,52 @@
+﻿@page
+@model RecipesNet.Areas.Identity.Pages.Users.IndexModel
+
+<div class="container text-center mb-3 bg-white rounded-pill border-bottom border-light">
+    <h1 class="text-capitalize text-dark font-weight-bold">
+        Users
+    </h1>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles[0].Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+        <tr class="@(item.EmailConfirmed ? "" : "table-secondary")">
+            <td class="col-1 btn-group btn-block">
+                @await Html.PartialAsync(RecipesNet.Models.Content.Buttons.Delete, item.Id.ToString())
+                @await Html.PartialAsync(RecipesNet.Models.Content.Buttons.Edit, item.Id.ToString())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @foreach (var role in Model.GetIdentityRole(item).Result)
+                {
+                    <div>
+                        @role
+                    </div>
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

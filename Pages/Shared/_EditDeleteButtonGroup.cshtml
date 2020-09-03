@@ -1,0 +1,6 @@
+﻿@model string
+
+<div class="btn-group">
+    @await Html.PartialAsync("_EditButtonPartial", @Model)
+    @await Html.PartialAsync("_DeleteButtonPartial", @Model)
+</div>

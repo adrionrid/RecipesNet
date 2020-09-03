@@ -1,0 +1,73 @@
+﻿@model RecipesNet.Models.Ingredient
+
+<div class="card border-secondary m-3" style="min-width: 16rem; max-width: 32rem; transition: box-shadow .4s">
+    <input type="hidden" asp-for="Id" />
+    <div class="card-header text-dark">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </h5>
+            @await Html.PartialAsync("_EditDeleteButtonGroup", Model.Id.ToString())
+        </div>
+    </div>
+    <div class="card-body table-light p-0">
+        <img class="card-img" style="object-fit:cover; height:8rem" src="~/img/Ingredients/@(Html.DisplayFor(modelItem => Model.Name)).jpg" }" alt="Ingredient image not found.">
+        <p class="card-text text-justify p-3">
+            @Html.DisplayFor(modelItem => Model.Description)
+        </p>
+    </div>
+    <div class="card-footer p-0">
+        <div class="card-text table-secondary rounded-lg p-1">
+            <div class="font-weight-bolder text-center text-monospace text-uppercase rounded-pill border-bottom border-white p-2">
+                @Html.DisplayNameFor(modelItem => Model.EnergyValue)
+            </div>
+            <div class="d-flex flex-row justify-content-around text-center p-1">
+                <div class="flex-column">
+                    <div>
+                        @Html.DisplayNameFor(modelItem => Model.EnergyValue.Protein)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => Model.EnergyValue.Protein)
+                    </div>
+                    <div class="small">
+                        @Models.Content.Units.Gramm
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <div>
+                        @Html.DisplayNameFor(modelItem => Model.EnergyValue.Fat)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => Model.EnergyValue.Fat)
+                    </div>
+                    <div class="small">
+                        @Models.Content.Units.Gramm
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <div>
+                        @Html.DisplayNameFor(modelItem => Model.EnergyValue.Carbohydrate)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => Model.EnergyValue.Carbohydrate)
+                    </div>
+                    <div class="small">
+                        @Models.Content.Units.Gramm
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <div>
+                        @Html.DisplayNameFor(modelItem => Model.EnergyValue.Calorie)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => Model.EnergyValue.Calorie)
+                    </div>
+                    <div class="small">
+                        @Models.Content.Units.Calorie
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

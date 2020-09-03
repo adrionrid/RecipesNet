@@ -1,0 +1,20 @@
+﻿@model IList<RecipesNet.Models.IngredientItem>
+@using RecipesNet
+
+@foreach (var item in Model)
+{
+    <div class="form-group input-group">
+        <input type="hidden" name="Model.Index" value="@item.Id" />
+        <input type="hidden" name="Model[@item.Id].Id" value="@item.Id" />
+        <div class="input-group-prepend">
+            <select name="Model[@item.Id].IngredientId" value="@item.IngredientId" class="form-control" asp-items="(IEnumerable<SelectListItem>)ViewBag.Ingredients">
+            </select>
+        </div>
+        <input name="Model[@item.Id].Quantity" value="@item.Quantity" class="form-control" />
+        <div class="input-group-append">
+            <button type="button" class="btn btn-outline-danger form-control" onclick="$(this).parent().remove()">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>
+}

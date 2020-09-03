@@ -1,0 +1,34 @@
+﻿@page
+@model RecipesNet.Pages.Cuisines.IndexModel
+
+@await Html.PartialAsync("_Title", "Cuisines")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cuisine[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cuisine[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cuisine)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @await Html.PartialAsync("_EditDeleteButtonGroup", item.Id.ToString())
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

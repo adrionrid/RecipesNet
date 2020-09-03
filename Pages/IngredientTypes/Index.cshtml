@@ -1,0 +1,29 @@
+﻿@page
+@model RecipesNet.Pages.IngredientTypes.IndexModel
+
+@await Html.PartialAsync("_Title", "Ingredient types")
+
+<table class="table ">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IngredientType[0].Name)
+            </th>
+
+            <th class="col-1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.IngredientType)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @await Html.PartialAsync("_EditDeleteButtonGroup", item.Id.ToString())
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

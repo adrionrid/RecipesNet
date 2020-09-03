@@ -1,0 +1,19 @@
+﻿@model RecipesNet.Models.IngredientItem
+@using RecipesNet.Models
+
+<div class="flex-row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="coll-md-4 form-group">
+        @Html.DisplayNameFor(m => m.Ingredient)
+        @Html.DisplayNameFor(m => m.Quantity)
+    </div>
+    <div class="coll-md-4 form-group">
+        <select data-val="true" data-val-required="The @nameof(IngredientItem.IngredientId) field is required."
+                id=@($"{nameof(Recipe)}_{nameof(Ingredients)}_{Model.Id}__{nameof(Model.IngredientId)}")
+                name=@($"{nameof(Recipe)}.{nameof(Ingredients)}[{Model.Id}].{nameof(Model.IngredientId)}")
+                aria-describedby=@($"{nameof(Recipe)}_{nameof(Ingredients)}_{Model.Id}__{nameof(Model.IngredientId)}-error")
+                class="valid" aria-invalid="false">
+        </select>
+        @Html.TextBoxFor(m => m.Quantity)
+    </div>
+</div>

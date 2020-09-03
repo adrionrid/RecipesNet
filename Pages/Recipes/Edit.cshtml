@@ -1,0 +1,215 @@
+﻿@page
+@model RecipesNet.Pages.Recipes.EditModel
+@using RecipesNet.Models
+
+@{
+    ViewData["Title"] = "Edit";
+    var ContainerIngredientItems = "IngredientItemsContainer";
+    var ButtonAddIngredient = "ButtonAddIngredient";
+
+    var ContainerInstruction = "InstructionContainer";
+    var ButtonAddInstruction = "ButtonAddInstruction";
+}
+
+<h1>Edit</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Recipe.Id" />
+            <div class="form-group">
+                <label asp-for="Recipe.Name" class="control-label"></label>
+                <input asp-for="Recipe.Name" class="form-control" />
+                <span asp-validation-for="Recipe.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.Cuisine" class="control-label"></label>
+                <select asp-for="Recipe.CuisineId" class="form-control" asp-items="ViewBag.CuisineId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.DishType" class="control-label"></label>
+                <select asp-for="Recipe.DishTypeId" class="form-control" asp-items="ViewBag.DishTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.CookingTime" class="control-label"></label>
+                <input asp-for="Recipe.CookingTime" class="form-control" />
+                <span asp-validation-for="Recipe.CookingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <label asp-for="Ingredients" class="control-label"></label>
+                    <div class="text-muted small">
+                        Units in @Models.Content.Units.Gramm
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    @foreach (var item in Model.Recipe.Ingredients)
+                    {
+                        <div class="form-group input-group">
+                            <input type="hidden" name="Recipe.Ingredients.Index" value="@item.Id" />
+                            <input type="hidden" name="Recipe.Ingredients[@item.Id].Id" value="@item.Id" />
+                            <div class="input-group-prepend">
+                                <select asp-for="@item.IngredientId" name="Recipe.Ingredients[@item.Id].IngredientId" value="@item.IngredientId" id="@item.IngredientId"  class="form-control"
+                                        asp-items="@Model.IngredientSelect">
+                                </select>
+                            </div>
+                            <input name="Recipe.Ingredients[@item.Id].Quantity" value="@item.Quantity" class="form-control" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-danger form-control" onclick="$(this).parent().parent().remove()">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="d-flex flex-column" id="@ContainerIngredientItems">
+
+                </div>
+                <button type="button" class="btn btn-outline-success" id=@ButtonAddIngredient>
+                    <i class="fas fa-plus"></i>
+                    @Html.DisplayNameFor(x => x.Ingredients.First().Ingredient)
+                </button>
+                <span asp-validation-for="Ingredients" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-column">
+                <label asp-for="Instructions" class="control-label"></label>
+                <div class="d-flex flex-column">
+                    @foreach (var item in Model.Recipe.Instructions)
+                    {
+                    <div class="form-group">
+                        <input type="hidden" name="Recipe.Instructions.Index" value="@item.Id" />
+                        <input type="hidden" name="Recipe.Instructions[@item.Id].Id" value="@item.Id" />
+                        <textarea rows="4" name="Recipe.Instructions[@item.Id].Entry" value="@item.Entry" class="form-control">@item.Entry</textarea>
+                        <button type="button" class="btn btn-outline-danger form-control" onclick="$(this).parent().remove()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    }
+                </div>
+                <div class="d-flex flex-column" id="@ContainerInstruction">
+
+                </div>
+                <button type="button" class="btn btn-outline-success" id=@ButtonAddInstruction>
+                    <i class="fas fa-plus"></i>
+                    @Html.DisplayNameFor(x => x.Instructions.First().Entry)
+                </button>
+                <span asp-validation-for="Instructions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" type="file" class="form-control-file form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+
+    var ingredients;
+    $(document).ready(function () {
+        $.ajax({
+            url: "?handler=Ingredients",
+            success: function (data) {
+                ingredients = JSON.parse(data);
+            },
+            error: function () {
+                alert("failed");
+            }
+        });
+    });
+
+    var index = $('#@ContainerIngredientItems').children().length;
+    $('#@ButtonAddIngredient').click(function () {
+        var idPart = '@nameof(Ingredients)'.concat('_', index, '__');
+        var id = idPart.concat('@nameof(IngredientItem.IngredientId)');
+        var namePart = '@nameof(Model.Ingredients)'.concat('[', index, '].');
+
+        $('#@ContainerIngredientItems')
+        .append($('<div>')
+            .addClass('form-group input-group')
+            .append($('<div>')
+                .addClass('input-group-prepend')
+                .append($('<select>')
+                    .addClass('form-control')
+                    .attr('id', id)
+                    .attr('name', namePart.concat('@nameof(IngredientItem.IngredientId)'))
+                    .attr('data-val', true)
+                )
+            )
+            .append($('<input>')
+                .addClass('form-control')
+                .attr('id', idPart.concat('@nameof(IngredientItem.Quantity)'))
+                .attr('name', namePart.concat('@nameof(IngredientItem.Quantity)'))
+                .attr('data-val', true)
+                .val(0)
+            )
+            .append($('<div>')
+                .addClass('input-group-append')
+                .append($('<button>')
+                    .addClass('btn btn-outline-danger form-control')
+                    .attr('type', 'button')
+                    .append($('<i>')
+                        .addClass('fas fa-trash')
+                    )
+                    .click(function () {
+                        $(this).parent().remove()
+                    })
+                )
+            )
+        )
+
+        $.each(ingredients, function (i, item) {
+            $('#'.concat(id))
+                .append($('<option>', {
+                value: item.Value,
+                text: item.Text
+            }));
+        });
+
+        index++;
+    });
+
+    var indexInstruction = $('#@ContainerInstruction').children().length;
+    $('#@ButtonAddInstruction').click(function () {
+        var idPart = '@nameof(Recipe)_@nameof(Recipe.Instructions)'.concat('_', indexInstruction, '__');
+        var id = idPart.concat('@nameof(InstructionStep.Entry)');
+        var namePart = '@Html.NameFor(x => x.Instructions)'.concat('[', indexInstruction, '].');
+
+        $('#@ContainerInstruction')
+        .append($('<div>')
+            .addClass('form-group')
+            .append($('<textarea>')
+                .addClass('form-control')
+                .attr('id', id)
+                .attr('name', namePart.concat('@nameof(InstructionStep.Entry)'))
+                .attr('data-val', true)
+            )
+            .append($('<button>')
+                .addClass('btn btn-outline-danger form-control')
+                .attr('type', 'button')
+                .append($('<i>')
+                    .addClass('fas fa-trash')
+                )
+                .click(function () {
+                    $(this).parent().remove()
+                })
+            )
+        )
+        indexInstruction++;
+    });
+</script>
+}

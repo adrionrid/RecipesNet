@@ -1,0 +1,53 @@
+﻿@page
+@model RecipesNet.Pages.Recipes.IndexModel
+
+@{
+    ViewData["Title"] = Html.DisplayNameFor(model => model.Recipe);
+}
+
+@await Html.PartialAsync("_Title", "Recipes")
+
+<style>
+    .card {
+        min-width: 16rem;
+        transition: box-shadow .4s
+    }
+
+    .card:hover {
+        box-shadow: 0px 0px 1rem lightgrey;
+    }
+</style>
+
+<div class="card-deck flex-column">
+    @foreach (var item in Model.Recipe)
+    {
+        <a asp-page="./Details" asp-route-id="@item.Id"
+           class="card d-flex flex-row border-light rounded rounded-right rounded-pill text-decoration-none text-dark my-2"
+           style="max-height:8rem">
+            <div class="card-body table-light p-0 small">
+                <img class="card-img rounded rounded-lg" style="object-fit:cover; max-height:8rem" src="~/img/Recipes/@(item.Id).jpg" }" alt="@Html.DisplayFor(modelItem => item.Name) image not found.">
+            </div>
+            <div class="mx-1 pr-5 col-5 col-md-3">
+                <h6 class="text-left small">
+                    @Html.DisplayFor(modelItem => item.DishType.Name)
+                    ·
+                    @Html.DisplayFor(modelItem => item.Cuisine.Name)
+                    @Html.DisplayNameFor(modelItem => item.Cuisine)
+                </h6>
+                <div class="my-2">
+                    <h5 class="card-title font-weight-bold">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </h5>
+                </div>
+                <div>
+                    <div class="card-text text-justify">
+                        <i class="far fa-clock"></i>
+                        @Html.DisplayFor(modelItem => item.CookingTime)
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+
+@Html.DisplayFor(x => x.Recipe.Pagination)

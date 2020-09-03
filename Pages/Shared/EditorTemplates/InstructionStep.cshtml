@@ -1,0 +1,10 @@
+﻿@model RecipesNet.Models.InstructionStep
+
+<div class="form-group">
+    <input type="hidden" asp-for="Id" />
+    @Html.TextAreaFor(x => x.Entry, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Entry, "", new { @class = "text-danger" })
+    <button type="button" class="btn btn-outline-danger form-control" onclick="$(this).parent().remove()">
+        <i class="fas fa-trash"></i>
+    </button>
+</div>

@@ -1,0 +1,44 @@
+﻿@page
+@model RecipesNet.Pages.Ingredients.IndexModel
+
+@{
+    ViewData["Title"] = Html.DisplayNameFor(model => model.Ingredient);
+}
+
+@await Html.PartialAsync("_Title", "Ingredients")
+
+<style>
+    .card {
+        min-width: 16rem;
+    }
+</style>
+
+<div class="card-deck">
+    @foreach (var item in Model.Ingredient)
+    {
+        <div class="card border-secondary my-3">
+            <div class="card-header text-dark">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </h5>
+                    @await Html.PartialAsync("_EditDeleteButtonGroup", item.Id.ToString())
+                </div>
+                <h6 class="card-subtitle small border-bottom">
+                    @Html.DisplayFor(modelItem => item.Type.Name)
+                </h6>
+            </div>
+            <div class="card-body table-light p-0">
+                <img class="card-img" style="object-fit:cover; height:8rem" src="~/img/Ingredients/@(Html.DisplayFor(modelItem => item.Id)).jpg" }" alt="Ingredient image not found.">
+                <p class="card-text text-justify p-3">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </p>
+            </div>
+            <div class="card-footer p-0">
+                @Html.DisplayFor(modelItem => item.EnergyValue)
+            </div>
+        </div>
+    }
+</div>
+
+@Html.DisplayFor(x => x.Ingredient.Pagination)
